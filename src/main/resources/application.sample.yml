@@ -1,0 +1,33 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: "instrapp-config-server"
+  security:
+    user:
+      name: "instrapp"
+      password: "${SPRING_SECURITY_USER_PASSWORD:default-password}"
+  cloud:
+    config:
+      server:
+        git:
+          uri: <GITHUB_REPO_URL>
+          clone-on-start: true
+          default-label: master
+          refreshRate: 120
+          ignore-local-ssh-settings: true
+          searchPaths: "/,//,///,////,////*/"
+          private-key: <GITHUB_SSH_KEY>
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "restart,refresh"
+  endpoint:
+    restart:
+      enabled: true
+    refresh:
+      enabled: true
